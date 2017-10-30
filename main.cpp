@@ -267,6 +267,37 @@ bool reverse(float ** lhs_elements,
 	return success;
 }
 
+double determ(float ** lhs_elements, unsigned int rows)
+{
+	unsigned int n = rows;
+	int i, j;
+	double det = 0;
+	float ** matr;
+	if (n == 1){
+		det = lhs_elements[0][0];
+	}
+	else if (n == 2){
+		det = lhs_elements[0][0] * lhs_elements[1][1] - lhs_elements[0][1] * lhs_elements[1][0];
+	}
+	else
+	{
+		matr = new float*[n - 1];
+		for (i = 0; i < n; ++i)
+		{
+			for (j = 0; j < n - 1; ++j)
+			{
+				if (j < i)
+					matr[j] = lhs_elements[j];
+				else
+					matr[j] = lhs_elements[j + 1];
+			}
+			det += pow((double)-1, (i + j))*determ(matr, n - 1) * lhs_elements[i][n - 1];
+		} 
+		delete[] matr;
+	}
+	return det;
+}
+
 auto output(std::ostream & stream,
 	float ** elements,
 	unsigned int rows,
@@ -304,6 +335,7 @@ int main()
 			output(cout, result, rows3, columns3);
 			}
 			else cout << "An error has occured while reading input data";
+		
 			break;
 		
 		case '-': 
@@ -312,6 +344,7 @@ int main()
 			output(cout, result, rows3, columns3);
 			}
 			else cout << "An error has occured while reading input data";
+			
 			break;
 
 		case '*':
@@ -320,26 +353,33 @@ int main()
 			output(cout, result, rows3, columns3);
 			}
 			else cout << "An error has occured while reading input data";
+		
 			break;
 
 		case 'T':
 			if (transpose(matrix1, rows1, columns1, result, rows3, columns3)) {
 			output(cout, result, rows3, columns3);
 			}
+			
 			break;
 
 		case 'R':
-			if (reverse(matrix1, rows1, columns1, result, rows3, columns3)) {
+			double det = determ(matrix1,rows1);
+			if (reverse(matrix1, rows1, columns1, result, rows3, columns3) && det!= 0) {
 				output(cout, result, rows3, columns3);
 			}
 			else cout << "There is no reverse matrix";
+			
 			break;
 		}
+		
 	}
 	else cout << "An error has occured while reading input data";
+	
 
 		cin.get();
 		cin.get();
 		return 0;
 	}
+
 
