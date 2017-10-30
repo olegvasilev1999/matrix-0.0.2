@@ -12,10 +12,10 @@ auto input(std::istream & stream,
 	unsigned int & result_rows,
 	unsigned int & result_columns)->std::istream &
 {
-	unsigned int rows;
-	unsigned int columns;
+	unsigned int rows = 0;
+	unsigned int columns = 0;
 	char symbol;
-	float ** elements;
+	float ** elements = nullptr;
 
 	bool success = true;
 
